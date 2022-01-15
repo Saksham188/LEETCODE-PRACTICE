@@ -1,0 +1,111 @@
+99. Recover Binary Search Tree
+Medium
+
+
+You are given the root of a binary search tree (BST), where the values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.
+
+ 
+
+Example 1:
+
+
+Input: root = [1,3,null,null,2]
+Output: [3,1,null,null,2]
+Explanation: 3 cannot be a left child of 1 because 3 > 1. Swapping 1 and 3 makes the BST valid.
+Example 2:
+
+
+Input: root = [3,1,4,null,null,2]
+Output: [2,1,4,null,null,3]
+Explanation: 2 cannot be in the right subtree of 3 because 2 < 3. Swapping 2 and 3 makes the BST valid.
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [2, 1000].
+-231 <= Node.val <= 231 - 1
+ 
+
+Follow up: A solution using O(n) space is pretty straight-forward. Could you devise a constant O(1) space solution?
+
+###################################################
+CODE:
+###################################################
+
+LOGIC:
+********************
+// 2 nodes of bst are swapped.our task is to restore the BST.
+// As we know inorder of bst is sorted.Now hame bas un dono unsorted ko vapas correct pos pe lana.
+// 2 cases: Swapped elements are not adjacent to each other ,case2 both are adjacent
+// Logic:Maintain 3ptr first,last,mid
+///Case1: eg 1,8,3,4,5,6,7,2    , first=Previous node where 1st number less than previous ie val8, mid will be number where 1st number<previous ie 3,last will be 2nd node where number<previous ie 2.
+///now for case 1 swap first with last and bst is restored.
+
+/// Case 2: 1,2,4,3,5,6,7,8 , here first: prev node where 1st num<prev ie 4, mid : num where 1stnum < prev ie 3, last=NULL ,swap first and mid.
+//
+
+******************************
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void SetPtr(TreeNode* root,TreeNode** prev,TreeNode**current,TreeNode**mid,TreeNode**last)
+    {
+        ///yaha ham inorder fashion mein traverse krte.
+        if(root==NULL)
+            return;
+        
+        SetPtr(root->left,prev,current,mid,last);
+        
+        if(*prev and (*prev)->val>root->val)  //yaha check kro ki violation jaha aaye bcse inorder sorted hota bst ka toh jaha violation vo node mid mein dalo,uska prev current mein dalo.
+        {
+            if(!*current) //yani jab first time violate hoga tab 
+            {
+                *current=*prev;
+                *mid=root;
+            }
+            else ///jab 2nd time violate hoga.
+            {
+                *last=root;
+            }
+        }
+        *prev=root;
+        
+        SetPtr(root->right,prev,current,mid,last);
+        
+    }
+    
+    void swap(int* a,int* b)
+    {
+        int temp=*a;
+        *a=*b;
+        *b=temp;
+    }
+    void recoverTree(TreeNode* root) {
+     TreeNode* prev,*current,*mid,*last;
+     
+        prev=current=mid=last=NULL;
+        
+        SetPtr(root,&prev,&current,&mid,&last);
+        
+        if(current and last)   /// case1
+        {
+            swap(&(current->val),&(last->val));
+        }
+        else if(current and mid)    ///case 2
+        {
+            swap(&(current->val),&(mid->val));
+
+        }
+    }
+};
