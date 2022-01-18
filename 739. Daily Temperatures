@@ -1,0 +1,74 @@
+739. Daily Temperatures
+Medium
+
+
+Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+ 
+
+Example 1:
+
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+Example 2:
+
+Input: temperatures = [30,40,50,60]
+Output: [1,1,1,0]
+Example 3:
+
+Input: temperatures = [30,60,90]
+Output: [1,1,0]
+ 
+
+Constraints:
+
+1 <= temperatures.length <= 105
+30 <= temperatures[i] <= 100
+
+
+##################################################
+CODE:
+##################################################
+
+LOGIC:
+**************************************************
+///Logic agar stack empty ho toh 0 hoga ans bcse koi bhi chota din ni hoga. vrna agar stack empty ni hai and hamara ab vala temp jyada hai hamare st ke top se toh pop krdo.
+ham stack ko bade se chote is order meon banare hai. yni sbse phele sbse badi val vala fir choti val vala. toh fir check krte agar stack empty hogya toh direct insert krdo 
+and ans=0 .vrna agar stack empty na ho toh ans mein daaldo stack ka top-i. 
+
+///eg array in reverse is 73 76 72 69 71 75 74 73 
+                index     7  6  5   4  3  2  1  0
+ Now initially all indexes in ans vector will be 0.
+ now we will make our stack as decreasing order,first the index with max value.
+ so now i=7 while fail as no ele in stack.at last 7 pushed.
+ now i=6  while satisfy as temp[i]>temp[st.top()] so 7 get poped from stack now stack empty while fail now and now 6 pushed in stack.
+ Now i=5 while fail as 72<st.top ie 72<76  so now we will insert ans at value i ,ans=st.top()-i , ans= 6-5=1  and now 5 pushed in stack.
+ now i=4 while fail as 69<72  so now if satisfy st not empty ans now ans=st.top()-i=5-4=1  now push 4
+ now i=3 while satisfy once when 71>69 so now pop 69 ie index 4 poped ,now stack not empty so ans= st.top()-i=5-3=2 , as 4 was popped and below 4 was 5 in stack.
+ similarly we will do for other.
+ and finally we get ans as : index 0 to 7    ans=1,1,4,2,1,1,0,0
+ 
+******************************************
+
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+       stack<int>st;
+        vector<int>ans(temperatures.size(),0);
+        
+        for(int i=temperatures.size()-1;i>=0;i--)
+        {
+           while(!st.empty() and temperatures[i]>=temperatures[st.top()])
+           {
+               st.pop();
+           }
+           if(!st.empty())
+            {
+                ans[i]=st.top()-i;
+            }
+            st.push(i);
+           
+        }
+        return ans;
+    }
+};
