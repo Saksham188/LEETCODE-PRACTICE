@@ -1,0 +1,98 @@
+977. Squares of a Sorted Array
+Easy
+
+Follow up: Squaring each element and sorting the new array is very trivial, could you find an O(n) solution using a different approach?
+
+
+Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order. 
+
+Example 1:
+
+Input: nums = [-4,-1,0,3,10]
+Output: [0,1,9,16,100]
+Explanation: After squaring, the array becomes [16,1,0,9,100].
+After sorting, it becomes [0,1,9,16,100].
+Example 2:
+
+Input: nums = [-7,-3,2,3,11]
+Output: [4,9,9,49,121]
+ 
+
+Constraints:
+
+1 <= nums.length <= 104
+-104 <= nums[i] <= 104
+nums is sorted in non-decreasing order.
+
+
+
+################################################
+CODE:
+################################################
+
+1st Approach: TC: O(NLogN) , SC:O(N)
+
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int>ans;
+        for(int i=0;i<nums.size();i++)
+        {
+            ans.push_back(nums[i]*nums[i]);
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
+
+
+*******************************************
+2nd Approach:
+*******************************************
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        multiset<int>mp;
+        for(int i=0;i<nums.size();i++)
+        {
+           mp.insert(nums[i]*nums[i]);
+        }
+               
+        return vector<int>(mp.begin(),mp.end());
+    }
+};
+
+***********************************************
+3rd Approach    TC: O(N)
+***********************************************
+ ///Logic: This is a 2 pointers approach.Here take a left pointer which start from 0 and an end pointer which start from end ,
+ now we check absolute value of left and right ptr and we will place square of greater one at kth position in array and then if left is greater we increment left
+ and if right is greater then we decrement right.
+ **********************************************
+ 
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int l=0;
+        int k=nums.size()-1;
+        int r=k;
+        vector<int>ans(nums.size());
+        while(k>=0)
+        {
+            if(abs(nums[l])>abs(nums[r]))
+            {
+                ans[k]=nums[l]*nums[l];
+                l++;
+                k--;
+            }
+            else
+            {
+                ans[k]=nums[r]*nums[r];
+                r--;
+                k--;
+            }
+        }
+        return ans;
+    }
+};
+
