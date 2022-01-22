@@ -1,0 +1,51 @@
+507. Perfect Number
+Easy
+
+A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. 
+A divisor of an integer x is an integer that can divide x evenly.
+
+Given an integer n, return true if n is a perfect number, otherwise return false.
+ 
+
+Example 1:
+Input: num = 28
+Output: true
+Explanation: 28 = 1 + 2 + 4 + 7 + 14
+1, 2, 4, 7, and 14 are all divisors of 28.
+
+Example 2:
+Input: num = 7
+Output: false
+ 
+Constraints:
+
+1 <= num <= 10^8
+
+
+##################################################
+CODE:
+##################################################
+
+class Solution {
+public:
+    bool checkPerfectNumber(int num) {
+        
+        int ans=1;
+        for(int i=2;i<sqrt(num);i++)
+        {
+            if(num%i==0)
+            {
+                if(i==num/i)  ///yaha pe check krre hai.eg number 64 hai ,har divisor ka sum chahiye toh loop toh 2 to 7 tak chalega toh agar tera i==n/i hai
+                ///eg 9/3=3 toh yaha sirf ek baar add kro. vrna eg n=64 i=2 toh yaha 2+64/2 =2+32 dono ko add krre ham.
+                {
+                    ans+=i;
+                }
+                else
+                    ans+=i+num/i;
+            }
+        }
+        if(ans==num and num!=1)
+            return true;
+        return false;
+    }
+};
