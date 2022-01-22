@@ -50,6 +50,8 @@ CODE:
 // If A has more '(' waiting for corresponding ')' than B. We assign the current ')' to A
 // else we assign to B
 ///here we will mantain count for A and B.
+
+***********************************************
 class Solution {
 public:
     vector<int> maxDepthAfterSplit(string seq) {
