@@ -1,0 +1,92 @@
+1111. Maximum Nesting Depth of Two Valid Parentheses Strings
+Medium
+
+A string is a valid parentheses string (denoted VPS) if and only if it consists of "(" and ")" characters only, and:
+It is the empty string, or
+It can be written as AB (A concatenated with B), where A and B are VPS's, or
+It can be written as (A), where A is a VPS.
+We can similarly define the nesting depth depth(S) of any VPS S as follows:
+
+depth("") = 0
+depth(A + B) = max(depth(A), depth(B)), where A and B are VPS's
+depth("(" + A + ")") = 1 + depth(A), where A is a VPS.
+For example,  "", "()()", and "()(()())" are VPS's (with nesting depths 0, 1, and 2), and ")(" and "(()" are not VPS's.
+
+ 
+
+Given a VPS seq, split it into two disjoint subsequences A and B, such that A and B are VPS's (and A.length + B.length = seq.length).
+
+Now choose any such A and B such that max(depth(A), depth(B)) is the minimum possible value.
+
+Return an answer array (of length seq.length) that encodes such a choice of A and B:  answer[i] = 0 if seq[i] is part of A, else answer[i] = 1.  
+Note that even though multiple answers may exist, you may return any of them.
+
+ 
+
+Example 1:
+Input: seq = "(()())"
+Output: [0,1,1,1,1,0]
+
+Example 2:
+Input: seq = "()(())()"
+Output: [0,0,0,1,1,0,1,1]
+ 
+Constraints:
+
+1 <= seq.size <= 10000
+
+
+###########################################
+CODE:
+###########################################
+
+///Logic:
+// We need A and B subsequences and they need to be valid paranthesis strings. Lets traverse the array and assign each character of given string to A or B.
+// if current character is '(' we can assign it to A or B, but we have to decrease the max(depth(A),depth(B))
+// if we have more '(' already in A than B that didn't get corresponding ')' yet. Then we should add it to B. because B is having less '(' waiting for ')'.
+// else if B has more '(' than 'A' or both have equal '(' , we assign the cuurent '(' to A
+
+// If current character is ')'
+// If A has more '(' waiting for corresponding ')' than B. We assign the current ')' to A
+// else we assign to B
+///here we will mantain count for A and B.
+class Solution {
+public:
+    vector<int> maxDepthAfterSplit(string seq) {
+        
+        vector<int>ans(seq.size());
+        int s1=0,s2=0;  ///s1 and s2 are calculating number of '(' in both strings and we add in that which have less unbalanced.
+        
+        for(int i=0;i<seq.size();i++)
+        {
+            if(seq[i]=='(')
+            {
+                if(s1>s2) ///kam vale mein add krdo.
+                {
+                    s2++;
+                    ans[i]=1;/// ans is 1 as it will be part of B.
+                }
+                else
+                {
+                   s1++;
+                    ans[i]=0;
+                }            
+            }
+            else
+            {
+               if(s1>s2)
+                {
+                    s1--;
+                    ans[i]=0;
+                }
+                else
+                {
+                   s2--;
+                    ans[i]=1;
+                }    
+                
+            }
+        }
+        return ans;
+    }
+};
