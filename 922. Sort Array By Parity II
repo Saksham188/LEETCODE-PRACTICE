@@ -1,0 +1,64 @@
+922. Sort Array By Parity II
+Easy
+
+Follow Up: Could you solve it in-place?
+
+Given an array of integers nums, half of the integers in nums are odd, and the other half are even.
+Sort the array so that whenever nums[i] is odd, i is odd, and whenever nums[i] is even, i is even.
+Return any answer array that satisfies this condition.
+
+
+Example 1:
+
+Input: nums = [4,2,5,7]
+Output: [4,5,2,7]
+Explanation: [4,7,2,5], [2,5,4,7], [2,7,4,5] would also have been accepted.
+
+Example 2:
+Input: nums = [2,3]
+Output: [2,3]
+ 
+
+Constraints:
+
+2 <= nums.length <= 2 * 10^4
+nums.length is even.
+Half of the integers in nums are even.
+0 <= nums[i] <= 1000
+ 
+###########################################################
+CODE:
+###########################################################
+
+///Logic: We will take 2 ptrs one even ptr which start from 0 and one odd ptr which start from 1.
+///now we will see which value mismatch .eg in 4,2,5,7 -> 2 and 5 are  mismatching so we will swap them. and we will increment both ptrs by 2.
+
+********************************************************
+
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& nums) {
+        int even=0,odd=1,n=nums.size();
+        
+        while(even<n and odd<n)
+        {
+            while(even<n and nums[even]%2==0) ///this loop will run for correct values and for any mismatch this loop breaks. eg for 4,2,5,7 => i=0
+                                              ///,loop run now i=2 condition fail as ele is odd.
+            {
+                even+=2;
+            }
+            while(odd<n and nums[odd]%2==1) ///This loop will fail for all mismatch of odd indices eg above here it will fail when j=1 as 2%2!=1 
+                                            ///so now we get both indexes of mismatch.
+            {
+                odd+=2;
+            }
+            
+            if(even<n)  ///now we check if our even index is less than n. if yes then swap.Here we are checking whether we dont go out of bound.
+                swap(nums[even],nums[odd]);
+            
+            even+=2; ///increment both ptrs.
+            odd+=2;
+        }
+        return nums;
+    }
+};
