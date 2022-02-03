@@ -1,0 +1,83 @@
+1779. Find Nearest Point That Has the Same X or Y Coordinate
+Easy
+
+
+You are given two integers, x and y, which represent your current location on a Cartesian grid: (x, y). 
+You are also given an array points where each points[i] = [ai, bi] represents that a point exists at (ai, bi).
+A point is valid if it shares the same x-coordinate or the same y-coordinate as your location.
+
+Return the index (0-indexed) of the valid point with the smallest Manhattan distance from your current location. 
+If there are multiple, return the valid point with the smallest index. If there are no valid points, return -1.
+
+The Manhattan distance between two points (x1, y1) and (x2, y2) is abs(x1 - x2) + abs(y1 - y2).
+
+ 
+
+Example 1:
+Input: x = 3, y = 4, points = [[1,2],[3,1],[2,4],[2,3],[4,4]]
+Output: 2
+Explanation: Of all the points, only [3,1], [2,4] and [4,4] are valid. Of the valid points, [2,4] and [4,4] have the smallest Manhattan distance from your current location,
+with a distance of 1. [2,4] has the smallest index, so return 2.
+
+Example 2:
+Input: x = 3, y = 4, points = [[3,4]]
+Output: 0
+Explanation: The answer is allowed to be on the same location as your current location.
+
+Example 3:
+Input: x = 3, y = 4, points = [[2,3]]
+Output: -1
+Explanation: There are no valid points.
+ 
+ 
+Constraints:
+
+1 <= points.length <= 10^4
+points[i].length == 2
+1 <= x, y, ai, bi <= 10^4
+
+
+##############################################
+CODE:
+##############################################
+Logic:
+ To solve this problem, we will need 2 support variables firstres is where we will store the position of the first best fit we find, 
+ initially set to -1 (which will then be returned when no match has been found),bestDist will store the current closest distance across all the matches we found 
+ -initially set to INT_MAX. We will then loop through all the elements in points and for each one we will:
+
+ assign the 2 values inside points as cx and cy and check if x == cx || y == cy as per requirements and, in case:
+ compute currDist as the Manhattan distance between {x, y} and {cx, cy};
+ check if currDist < bestDist and in case update both bestDist and res accordingly.
+ Once done, we can return res 
+
+
+class Solution {
+public:
+    int nearestValidPoint(int x, int y, vector<vector<int>>& points) {
+        int ans=INT_MAX,result=-1,CurrDis;       
+        
+        for(int i=0;i<points.size();i++)
+        {
+            if(points[i][0]==x or points[i][1]==y)
+            {
+               CurrDis= abs(x-points[i][0])+abs(y-points[i][1]);
+            
+                if(CurrDis<ans)  ///as we need to find point with min distance.
+                {
+                    ans=CurrDis;
+                    result=i;  ///store x value.
+                }
+            }
+           
+        }
+       return result;
+    }
+};
+
+
+
+
+
+
+
+
