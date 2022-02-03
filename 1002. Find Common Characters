@@ -1,0 +1,89 @@
+1002. Find Common Characters
+Easy
+
+Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
+
+Example 1:
+Input: words = ["bella","label","roller"]
+Output: ["e","l","l"]
+
+Example 2:
+Input: words = ["cool","lock","cook"]
+Output: ["c","o"]
+ 
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 100
+words[i] consists of lowercase English letters.
+
+#################################################
+CODE:
+#################################################
+
+///Logic:Here make an integer array to count occurences of each letter having number of rows as number of words in array and 26 col, as we have 26 letters,
+And calculate the count of occurences of each letter in that word. Then find min count of occurences of each letter. 
+and then start with while(minCount--) and push ans in vector.
+class Solution {
+public:
+    vector<string> commonChars(vector<string>& words) {
+        vector<string>ans;
+        int count[words.size()][26]; ///to count frequency of each letter in the word.
+        ///assign count =0 for each.
+        for(int i=0;i<words.size();i++)
+        {
+            for(int j=0;j<26;j++)
+            {
+                count[i][j]=0;
+            }
+        }
+                
+        ///Now traverse and increase count of particular letter in a word.
+        for(int i=0;i<words.size();i++)
+        {
+            for(int j=0;j<words[i].size();j++)
+            {
+               count[i][words[i][j] -97]++;
+            }
+        }
+        
+        string var;
+        ///now we need to find smallest frequency of that letter.
+        for(int x=0;x<26;x++)
+        {
+            int smallest=count[0][x];
+            ///traverse in each word array,eg at pos 0 ie a we have fre as 1,2,1 in all 3 then our ans of smallest will be 1.
+            for(int z=1;z<words.size();z++)
+            {
+                smallest=min(smallest,count[z][x]);
+            }
+            
+            ///and till smallest dont bcme 0 push it in ans.
+            while(smallest-- >0)
+            {
+                var=(char)(x+97);
+                ans.push_back(var);
+            }
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
