@@ -1,0 +1,127 @@
+500. Keyboard Row
+Easy
+
+Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
+In the American keyboard:
+the first row consists of the characters "qwertyuiop",
+the second row consists of the characters "asdfghjkl", and
+the third row consists of the characters "zxcvbnm".
+
+ 
+Example 1:
+Input: words = ["Hello","Alaska","Dad","Peace"]
+Output: ["Alaska","Dad"]
+
+Example 2:
+Input: words = ["omk"]
+Output: []
+
+Example 3:
+Input: words = ["adsdf","sfd"]
+Output: ["adsdf","sfd"]
+ 
+Constraints:
+
+1 <= words.length <= 20
+1 <= words[i].length <= 100
+words[i] consists of English letters (both lowercase and uppercase). 
+
+
+###############################################
+CODE:
+###############################################
+class Solution {
+public:
+    vector<string> findWords(vector<string>& words) {
+     vector<string>ans;
+        string string1="qwertyuiop",string2="asdfghjkl",string3="zxcvbnm";
+        bool flag=1;
+        
+        for(int i=0;i<words.size();i++)
+        {
+            flag=1;
+            for(int j=0;j<words[i].size();j++)
+            {
+                char c=tolower(words[i][j]);
+                if(string1.find(c)==-1)
+                {
+                    flag=0;
+                    break;
+                }
+            }
+            
+            if(flag==1)
+            {
+                ans.push_back(words[i]);
+            }
+        }
+        
+        for(int i=0;i<words.size();i++)
+        {
+            flag=1;
+            for(int j=0;j<words[i].size();j++)
+            {
+                char c=tolower(words[i][j]);
+                if(string2.find(c)==-1)
+                {
+                    flag=0;
+                    break;
+                }
+            }
+            if(flag==1)
+            {
+                ans.push_back(words[i]);
+            }
+        }
+        
+        for(int i=0;i<words.size();i++)
+        {
+            flag=1;
+            for(int j=0;j<words[i].size();j++)
+            {
+                char c=tolower(words[i][j]);
+                if(string3.find(c)==-1)
+                {
+                    flag=0;
+                    break;
+                }
+            }
+            if(flag==1)
+            {
+                ans.push_back(words[i]);
+            }
+        }
+        
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
