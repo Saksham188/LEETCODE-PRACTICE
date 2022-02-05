@@ -1,0 +1,112 @@
+824. Goat Latin
+Easy
+
+
+You are given a string sentence that consist of words separated by spaces. Each word consists of lowercase and uppercase letters only.
+We would like to convert the sentence to "Goat Latin" (a made-up language similar to Pig Latin.) The rules of Goat Latin are as follows:
+
+If a word begins with a vowel ('a', 'e', 'i', 'o', or 'u'), append "ma" to the end of the word.
+For example, the word "apple" becomes "applema".
+If a word begins with a consonant (i.e., not a vowel), remove the first letter and append it to the end, then add "ma".
+For example, the word "goat" becomes "oatgma".
+Add one letter 'a' to the end of each word per its word index in the sentence, starting with 1.
+For example, the first word gets "a" added to the end, the second word gets "aa" added to the end, and so on.
+Return the final sentence representing the conversion from sentence to Goat Latin.
+
+ 
+
+Example 1:
+Input: sentence = "I speak Goat Latin"
+Output: "Imaa peaksmaaa oatGmaaaa atinLmaaaaa"
+
+Example 2:
+Input: sentence = "The quick brown fox jumped over the lazy dog"
+Output: "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"
+ 
+
+Constraints:
+1 <= sentence.length <= 150
+sentence consists of English letters and spaces.
+sentence has no leading or trailing spaces.
+All the words in sentence are separated by a single space.
+
+
+///Here in end we have to append number of a's according to spaces. ie when first space comes then before it append 1 a and after that space append 2a, similarly so on.
+
+#########################################################
+CODE:
+##########################################################
+
+class Solution {
+public:
+    string toGoatLatin(string sentence) {
+        string ans="";
+        int spacecount=0;
+        
+        for(int i=0;i<sentence.size();i++)
+        {
+             if(sentence[i]=='a'||sentence[i]=='e'||sentence[i]=='i'||sentence[i]=='o'||sentence[i]=='u'||sentence[i]=='A'||sentence[i]=='E'||sentence[i]=='I'
+             ||sentence[i]=='O'||sentence[i]=='U')
+            {
+                while(sentence[i]!=' ' and i<sentence.size())
+                {
+                    ans+=sentence[i];
+                    i++;
+                }
+                ans+="ma";
+                spacecount++;
+                
+                int p=spacecount-1;
+                cout<<"vowel p:"<<p<<endl;
+                while(p>=0)
+                {
+                    ans+='a';
+                    p--;
+                }
+                ans+=' ';
+            }
+            else
+            {
+                int index=0;
+                string c;
+                while(sentence[i]!=' ' and i<sentence.size())
+                {
+                    if(index==0)
+                    {
+                        c=sentence[i];
+                    }
+                    if(index!=0)
+                        ans+=sentence[i];
+                    
+                    index++;
+                    i++;
+                }
+                ans+= c+"ma";
+                spacecount++;
+                int p=spacecount-1;
+                cout<<"conso p:"<<p<<endl;
+
+                while(p>=0)
+                {
+                    ans+='a';
+                    p--;
+                }
+                
+                ans+=' ';
+
+            }
+        }
+        
+        return ans.substr(0,ans.size()-1);
+    }
+};
+
+
+
+
+
+
+
+
+
+
