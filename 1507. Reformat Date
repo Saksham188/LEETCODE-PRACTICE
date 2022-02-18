@@ -1,0 +1,99 @@
+1507. Reformat Date
+Easy
+
+
+Given a date string in the form Day Month Year, where:
+Day is in the set {"1st", "2nd", "3rd", "4th", ..., "30th", "31st"}.
+Month is in the set {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}.
+Year is in the range [1900, 2100].
+
+Convert the date string to the format YYYY-MM-DD, where:
+YYYY denotes the 4 digit year.
+MM denotes the 2 digit month.
+DD denotes the 2 digit day.
+ 
+
+Example 1:
+Input: date = "20th Oct 2052"
+Output: "2052-10-20"
+
+Example 2:
+Input: date = "6th Jun 1933"
+Output: "1933-06-06"
+
+Example 3:
+
+Input: date = "26th May 1960"
+Output: "1960-05-26"
+ 
+
+Constraints:
+The given dates are guaranteed to be valid, so no error handling is necessary.
+
+
+#################################
+CODE:
+#################################
+
+class Solution {
+public:
+    string reformatDate(string date) {
+        date+=" ";
+        string temp;
+        map<string,string>Month;
+        
+        Month.insert({"Jan","01"});
+        Month.insert({"Feb","02"});
+        Month.insert({"Mar","03"});
+        Month.insert({"Apr","04"});
+        Month.insert({"May","05"});
+        Month.insert({"Jun","06"});
+        Month.insert({"Jul","07"});
+        Month.insert({"Aug","08"});
+        Month.insert({"Sep","09"});
+        Month.insert({"Oct","10"});
+        Month.insert({"Nov","11"});
+        Month.insert({"Dec","12"});
+
+        vector<string>v;
+        for(int i=0;i<date.size();i++)
+        {
+            if(date[i]==' ')
+            {
+                v.push_back(temp);
+                temp="";
+            }
+            else 
+                temp+=date[i];
+        }
+        
+        for(auto i:v)
+        {
+            cout<<i<<" ";
+        }
+        string ans="";
+        ans+=v[2]+"-";
+        
+        ans+=Month[v[1]]+"-";
+        
+        if(v[0][1]>='0' and v[0][1]<='9')
+        {
+            ans+=v[0][0];
+            ans+=v[0][1];
+        }
+        else
+        {
+            ans+="0"; 
+            // cout<<"v[0][0]: "<<v[0][0]<<"\n";
+            ans+=v[0][0];
+        }   
+            
+        // for(int i=0;i<v[0].size();i++)
+        // {
+            // if(v[0][i]>='0' and v[0][i]<='9')
+            //     ans+=v[0][i];
+        // }
+
+        return ans;
+    }
+};
