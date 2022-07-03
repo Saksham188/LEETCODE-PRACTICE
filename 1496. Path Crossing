@@ -1,0 +1,121 @@
+1496. Path Crossing
+Easy
+
+
+Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively.
+You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
+Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
+
+ 
+
+Example 1:
+Input: path = "NES"
+Output: false 
+Explanation: Notice that the path doesn't cross any point more than once.
+
+Example 2:
+Input: path = "NESWW"
+Output: true
+Explanation: Notice that the path visits the origin twice.
+ 
+
+Constraints:
+
+1 <= path.length <= 10^4
+path[i] is either 'N', 'S', 'E', or 'W'.
+
+##############################################
+CODE:
+##############################################
+
+Method1:
+
+class Solution {
+public:
+    bool isPathCrossing(string path) {
+        
+        int x=0,y=0;
+        set<pair<int,int> >mp;
+       
+        mp.insert({0,0});
+        
+        for(int i=0;i<path.size();i++)
+        {
+            if(path[i]=='N')
+            {
+                y+=1;
+            }
+            else if(path[i]=='S')
+            {
+                y-=1;
+            }
+            else if(path[i]=='E')
+            {
+                x+=1;
+            }
+            else if(path[i]=='W')
+            {
+                x-=1;
+            }
+            
+            if(mp.find({x,y})!=mp.end())
+            {
+                return true;
+            }
+            else
+                mp.insert({x,y});
+            
+        }
+        
+        
+        return false;
+        
+    }
+};
+
+
+*************************************
+METHOD 2:
+*************************************
+
+class Solution {
+public:
+    bool isPathCrossing(string path) {
+        
+        int x=0,y=0;
+        map<pair<int,int>,int>mp;
+        mp[{0,0}]++;
+        for(int i=0;i<path.size();i++)
+        {
+            if(path[i]=='N')
+            {
+                y+=1;
+            }
+            else if(path[i]=='S')
+            {
+                y-=1;
+            }
+            else if(path[i]=='E')
+            {
+                x+=1;
+            }
+            else if(path[i]=='W')
+            {
+                x-=1;
+            }
+            // cout<<x<<" "<<y<<endl;
+          
+            mp[{x,y}]++;
+
+        }
+        
+        for(auto it:mp)
+        {
+            cout<<it.first.first<<it.first.second<<"\n";
+             if(it.second>1)
+                return true;
+        }
+        return false;
+        
+    }
+};
