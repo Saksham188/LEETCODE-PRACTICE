@@ -35,6 +35,36 @@ Constraints:
 ########################################
 CODE:
 ########################################
+Method 1: TC:O(N*M)
+
+class Solution {
+public:
+    vector<int> processQueries(vector<int>& queries, int m) {
+        vector<int>Ans,Arr;
+        int temp;
+        
+        for(int i=0;i<m;i++)
+        {
+            Arr.push_back(i+1);
+        }
+        
+        for(int i=0;i<queries.size();i++)
+        {
+            temp= find(Arr.begin(),Arr.end(),queries[i])-Arr.begin();
+            Ans.push_back(temp);
+            Arr.erase(Arr.begin()+temp);
+            Arr.insert(Arr.begin(),queries[i]);
+        }
+        return Ans;
+    }
+};
+
+
+
+
+********************************
+Method 2: TC: O(NMLogM)  , O(N) queries loop , MlogM stable partition,M find.
+*********************************
 class Solution {
 public:
     vector<int> processQueries(vector<int>& queries, int m) {
