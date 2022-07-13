@@ -1,0 +1,58 @@
+560. Subarray Sum Equals K
+Medium
+
+Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+Example 1:
+Input: nums = [1,1,1], k = 2
+Output: 2
+
+Example 2:
+Input: nums = [1,2,3], k = 3
+Output: 2
+ 
+
+Constraints:
+1 <= nums.length <= 2 * 10^4
+-1000 <= nums[i] <= 1000
+-10^7 <= k <= 10^7
+
+#################################################
+CODE:
+#################################################
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        
+        int ans=0;
+        
+        vector<int>PrefixSum(nums.size(),0);
+        PrefixSum[0]=nums[0];
+        
+        for(int i=1;i<nums.size();i++)
+        {
+            PrefixSum[i]= PrefixSum[i-1]+nums[i];
+        }
+        
+        unordered_map<int,int>Mp;
+        
+        for(int i=0;i<nums.size();i++)
+        {
+            if(PrefixSum[i]==k)
+                ans++;
+            ///ye isliye manlo k=9 and in Prefix Sum array we have 11 and 2 then 11-2 bhi 9 dega so usko add krdo.
+            if(Mp.find(PrefixSum[i] -k)!=Mp.end())
+            {
+                ans+=Mp[PrefixSum[i] -k];
+            }
+            
+            Mp[PrefixSum[i]]++;
+            
+        }
+        
+        return ans;
+        
+    }
+};
