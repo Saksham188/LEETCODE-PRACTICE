@@ -1,0 +1,91 @@
+894. All Possible Full Binary Trees
+Medium
+
+
+Given an integer n, return a list of all possible full binary trees with n nodes. 
+Each node of each tree in the answer must have Node.val == 0.
+
+Each element of the answer is the root node of one possible tree. You may return the final list of trees in any order.
+
+A full binary tree is a binary tree where each node has exactly 0 or 2 children.
+
+ 
+
+Example 1:
+///here we will have (1,5),(3,3),(5,1) ->no of nodes on left and right
+Input: n = 7
+Output: [[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]
+
+Example 2:
+Input: n = 3
+Output: [[0,0,0]]
+ 
+Constraints:
+
+1 <= n <= 20
+
+########################################
+CODE:
+#########################################
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    // Map DP ke lie.    
+    unordered_map<int,vector<TreeNode*> >Mp;
+    
+    vector<TreeNode*> allPossibleFBT(int n) {
+        
+        vector<TreeNode*>Ans;
+       
+        ///Agar even nodes hue toh tree ni bnega
+        if(n%2==0)
+            return Ans;
+        
+        // Agar solved hai toh uske result ko use kro     
+        if(Mp.find(n)!=Mp.end())
+            return Mp[n];
+        
+        if(n==1)
+        {
+            Ans.push_back(new TreeNode(0));
+            Mp[1]=Ans;
+            return Ans;
+        }
+        
+        // +2 kia bcse sare even pr 0 hoga result.         
+        for(int i=1;i<n;i+=2)
+        {
+            vector<TreeNode*>Left,Right;
+            Left=allPossibleFBT(i); 
+            ///i and n-i-1 isliye kia bcse ek tree node hogi toh even nodes bchegi like n=7 ke lie 6 bchega ab (1,5)(3,3)(5,1)  ,
+            neglected=(2,4)(4,2) kyunki dono even.
+            
+            Right=allPossibleFBT(n-i-1);
+            
+            for(int j=0;j<Left.size();j++)
+            {
+                for(int k=0;k<Right.size();k++)
+                {
+                    TreeNode* root=new TreeNode(0);
+                    root->left=Left[j];
+                    root->right=Right[k];
+                    Ans.push_back(root);  //Yaha Ans push krte jao.
+                }
+            }
+        }
+        ///Store krdo DP mein
+        Mp[n]=Ans;
+        return Ans;
+    }
+};
