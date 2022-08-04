@@ -1,0 +1,68 @@
+861. Score After Flipping Matrix
+Medium
+
+
+You are given an m x n binary matrix grid.
+A move consists of choosing any row or column and toggling each value in that row or column (i.e., changing all 0's to 1's, and all 1's to 0's).
+Every row of the matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.
+Return the highest possible score after making any number of moves (including zero moves).
+
+ 
+
+Example 1:
+Input: grid = [[0,0,1,1],[1,0,1,0],[1,1,0,0]]
+Output: 39
+Explanation: 0b1111 + 0b1001 + 0b1111 = 15 + 9 + 15 = 39
+
+Example 2:
+Input: grid = [[0]]
+Output: 1
+ 
+Constraints:
+m == grid.length
+n == grid[i].length
+1 <= m, n <= 20
+grid[i][j] is either 0 or 1.
+
+#################################################
+CODE:
+#################################################
+// TC:O(row*col)
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& grid) {
+        
+        if(grid.size()==0)
+            return 0;
+        
+        int n=grid.size(),m=grid[0].size(),Ans=0,Count=0;
+        
+        //Here first try to make all row's first element as 0 so that when we toggle complete col we get all MSB as 1.
+        
+        for(int row=0;row<n;row++)
+        {
+            if(grid[row][0]==0)
+            {
+                for(int col=0;col<m;col++)
+                {
+                    grid[row][col]=1-grid[row][col];
+                }
+                
+            }
+        }
+        
+        //Now traverse col wise and find count of 1's and then multiply it with max of 0's in col or 1's in col and multiply it wih power of 2 and add to ans.
+        
+        for(int col=0;col<m;col++)
+        {
+            Count=0;
+            for(int row=0;row<n;row++)
+            {
+                if(grid[row][col]==1)
+                    Count++;
+            }
+            Ans+= max(Count,n-Count)* pow(2,m-col-1);
+        }
+        return Ans;
+    }
+};
