@@ -1,0 +1,88 @@
+2326. Spiral Matrix IV
+Medium
+
+You are given two integers m and n, which represent the dimensions of a matrix.
+You are also given the head of a linked list of integers.
+Generate an m x n matrix that contains the integers in the linked list presented in spiral order (clockwise), starting from the top-left of the matrix. 
+If there are remaining empty spaces, fill them with -1.
+Return the generated matrix.
+
+Example 1:
+Input: m = 3, n = 5, head = [3,0,2,6,8,1,7,9,4,2,5,5,0]
+Output: [[3,0,2,6,8],[5,0,-1,-1,1],[5,2,4,9,7]]
+Explanation: The diagram above shows how the values are printed in the matrix.
+Note that the remaining spaces in the matrix are filled with -1.
+
+Example 2:
+Input: m = 1, n = 4, head = [0,1,2]
+Output: [[0,1,2,-1]]
+Explanation: The diagram above shows how the values are printed from left to right in the matrix.
+The last space in the matrix is set to -1.
+ 
+
+Constraints:
+1 <= m, n <= 10^5
+1 <= m * n <= 10^5
+The number of nodes in the list is in the range [1, m * n].
+0 <= Node.val <= 1000
+
+#####################################################
+CODE:
+######################################################
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
+        ListNode* temp=head;
+        
+     vector<vector<int> >Ans(m,vector<int>(n,-1));
+        int minrow=0,mincol=0,maxrow=m-1,maxcol=n-1;
+        //Isko ese traverse kro phele minrow=0 lo ab col inc krke end tk jao,and minrow++ krdo toh minrow=1,now ab 1 se last row tak jao and last col bharo fir lastcol km krdo. fir maxrow mein col ko ulta traverse kro aur maxrow ko km krdo aur fir last mein simple bharo(second row) and mincol++ krdo.
+        while(temp!=NULL)
+        {
+            for(int j=mincol;j<=maxcol and temp!=NULL;j++)
+            {
+                int k=minrow;
+                Ans[k][j]=temp->val;
+                temp=temp->next;
+            }
+            minrow++;
+            
+            for(int i=minrow;i<=maxrow and temp!=NULL;i++)
+            {
+                int k=maxcol;
+                Ans[i][k]=temp->val;
+                temp=temp->next;
+            }
+            maxcol--;
+            
+            for(int j=maxcol;j>=mincol and temp!=NULL;j--)
+            {
+                int k=maxrow;
+                Ans[k][j]=temp->val;
+                temp=temp->next;
+            }
+            maxrow--;
+            
+            for(int i=maxrow;i>=minrow and temp!=NULL;i--)
+            {
+                int k=mincol;
+                Ans[i][k]=temp->val;
+                temp=temp->next;
+            }
+            mincol++;
+        }
+       
+        return Ans;
+        }
+    
+};
