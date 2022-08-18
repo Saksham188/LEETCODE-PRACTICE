@@ -46,6 +46,7 @@ public:
             St.push(i+1);
             
             //Hame smallest string chahiye toh uske lie pattern mein jese hi I aata toh I se next I ke beech ke elements ko reverse krdo.
+              ///Yaha ham lowest string 1234 ese banare phele.fir ab uske baad jaha jaha decreasing aara us poore ko reverse krre.
             if(i==pattern.size() or pattern[i]=='I')
             {
                 while(!St.empty())
